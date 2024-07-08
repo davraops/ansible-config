@@ -1,0 +1,9 @@
+[webservers]
+staging-web1.example.com
+staging-web2.example.com
+
+[dbservers]
+staging-db1.example.com
+
+[loadbalancers]
+staging-lb1.example.com
