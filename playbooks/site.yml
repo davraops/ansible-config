@@ -1,0 +1,18 @@
+---
+- name: Configure the database
+  hosts: dbservers
+  become: true
+  roles:
+    - db
+
+- name: Configure the web servers
+  hosts: webservers
+  become: true
+  roles:
+    - web
+
+- name: Configure the load balancer
+  hosts: loadbalancers
+  become: true
+  roles:
+    - proxy

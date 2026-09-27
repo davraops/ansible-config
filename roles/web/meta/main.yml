@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Rafael Avella
+  description: Nginx with a health check and the package default site removed.
+  license: MIT
+  min_ansible_version: "2.16"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - "22.04"
+        - "24.04"
+dependencies: []

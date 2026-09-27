@@ -1,0 +1,25 @@
+---
+- name: Install Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    cache_valid_time: 3600
+
+- name: Remove the packaged default site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload Nginx
+
+- name: Install the app site
+  ansible.builtin.template:
+    src: app.conf.j2
+    dest: /etc/nginx/conf.d/app.conf
+    mode: "0644"
+  notify: Reload Nginx
+
+- name: Enable Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true

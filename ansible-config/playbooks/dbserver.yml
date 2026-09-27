@@ -1,6 +1,0 @@
----
-- name: Configure Database Server
-  hosts: dbservers
-  become: yes
-  roles:
-    - dbserver

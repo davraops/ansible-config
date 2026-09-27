@@ -1,0 +1,28 @@
+---
+- name: Install PostgreSQL
+  ansible.builtin.apt:
+    name: postgresql
+    state: present
+    cache_valid_time: 3600
+
+- name: Listen on localhost only
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ pg_version }}/main/postgresql.conf"
+    regexp: '^#?\s*listen_addresses\s*='
+    line: "listen_addresses = 'localhost'"
+  notify: Restart PostgreSQL
+
+- name: Allow only local clients
+  ansible.builtin.template:
+    src: pg_hba.conf.j2
+    dest: "/etc/postgresql/{{ pg_version }}/main/pg_hba.conf"
+    mode: "0640"
+    owner: postgres
+    group: postgres
+  notify: Restart PostgreSQL
+
+- name: Enable PostgreSQL
+  ansible.builtin.service:
+    name: postgresql
+    state: started
+    enabled: true

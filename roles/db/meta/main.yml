@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  author: Rafael Avella
+  description: PostgreSQL listening on localhost, with a local-only client file.
+  license: MIT
+  min_ansible_version: "2.16"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - "24.04"
+dependencies: []

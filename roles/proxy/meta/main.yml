@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Rafael Avella
+  description: HAProxy in front of the webservers group, checking /health.
+  license: MIT
+  min_ansible_version: "2.16"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - "22.04"
+        - "24.04"
+dependencies: []

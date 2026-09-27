@@ -1,45 +1,34 @@
-# Ansible Configuration Management
+# Ansible configuration
 
-This repository contains Ansible playbooks, roles, and inventories for setting up a web server, database server, and load balancer.
+Public sample from the [portfolio index](https://github.com/davraops/devsecops-portfolio). Three roles for an Ubuntu host: PostgreSQL, Nginx, and HAProxy.
 
-## Usage
+The inventory points at `example.com`. Those names are placeholders. `--syntax-check` does not connect. Do not run the play against them.
 
-### Prerequisites
+## What it configures
 
-- Install Ansible: Follow the [Ansible installation guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) to install Ansible on your local machine.
+- `db` installs PostgreSQL 16, sets `listen_addresses` to localhost, and replaces `pg_hba.conf` so clients are local only. There is no password in the repo.
+- `web` installs Nginx, removes the packaged default site, and serves `/health`. A config change reloads Nginx.
+- `proxy` installs HAProxy in front of the `webservers` group and checks `/health`. Stats stay on the admin socket. There is no public stats page.
 
-### Running the Playbooks
+## Check
 
-1. **Clone the repository:**
+Ansible 2.16 or newer.
 
-    ```sh
-    git clone https://github.com/davraops/ansible-config.git
-    cd ansible-config
-    ```
+```bash
+ansible-playbook playbooks/site.yml --syntax-check
+ansible-lint
+```
 
-2. **Run the Web Server Playbook:**
+## Run
 
-    ```sh
-    ansible-playbook -i inventories/production/hosts playbooks/webserver.yml
-    ```
+Replace the hosts in `inventories/production/hosts.yml` with machines you own, then:
 
-3. **Run the Database Server Playbook:**
+```bash
+ansible-playbook playbooks/site.yml
+```
 
-    ```sh
-    ansible-playbook -i inventories/production/hosts playbooks/dbserver.yml
-    ```
+Staging is `inventories/staging/hosts.yml`. Pass `-i inventories/staging/hosts.yml` to use it.
 
-4. **Run the Load Balancer Playbook:**
+The database role assumes Ubuntu 24.04, where the package is PostgreSQL 16. The web and proxy roles also fit Ubuntu 22.04.
 
-    ```sh
-    ansible-playbook -i inventories/production/hosts playbooks/loadbalancer.yml
-    ```
-
-### Customizing for Your Environment
-
-- **Inventories:** Edit the `inventories/production/hosts` or `inventories/staging/hosts` files to match the actual hostnames or IP addresses of your servers.
-- **Templates:** Modify the templates in the `roles/webserver/templates` and `roles/loadbalancer/templates` directories if you need to customize the configurations for Nginx and HAProxy.
-
-## License
-
-This project is licensed under the MIT License.
+MIT. See [LICENSE](LICENSE).
