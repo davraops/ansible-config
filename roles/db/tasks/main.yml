@@ -7,7 +7,7 @@
 
 - name: Listen on localhost only
   ansible.builtin.lineinfile:
-    path: "/etc/postgresql/{{ pg_version }}/main/postgresql.conf"
+    path: "/etc/postgresql/{{ db_pg_version }}/main/postgresql.conf"
     regexp: '^#?\s*listen_addresses\s*='
     line: "listen_addresses = 'localhost'"
   notify: Restart PostgreSQL
@@ -15,7 +15,7 @@
 - name: Allow only local clients
   ansible.builtin.template:
     src: pg_hba.conf.j2
-    dest: "/etc/postgresql/{{ pg_version }}/main/pg_hba.conf"
+    dest: "/etc/postgresql/{{ db_pg_version }}/main/pg_hba.conf"
     mode: "0640"
     owner: postgres
     group: postgres
